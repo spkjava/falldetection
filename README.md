@@ -55,23 +55,11 @@ NORMAL ──(fall detected)──▶ FALLING ──(impact confirmed)──▶ 
 
 ```
 Senior_Project/
-├── fall_detection_mac.py           # 🎬 Main detection script (Mac/Pi)
-├── alerts.py                       # 🔔 Alert module (LINE, Buzzer, Sound)
-├── train_plot_mac.py               # 🏋️ Model training & evaluation
-├── fall_model_from_sequences.pkl   # 🧠 Trained Random Forest model
-├── requirements.txt                # 📦 Dependencies (Mac/PC)
-├── requirements_pi.txt             # 📦 Dependencies (Raspberry Pi)
-├── MIGRATION_PI5.md                # 📖 Detailed Pi 5 migration guide
-├── detected_falls/                 # 📸 Saved fall detection images
-├── image/                          # 🎥 Test videos
-│   ├── vdo1.mp4                    #    Walking on log (no fall)
-│   ├── vdo2.mp4                    #    Fall detected ✓
-│   ├── vdo3.mp4                    #    CCTV (no fall)
-│   ├── fall-01-cam0.mp4            #    Fall detected ✓
-│   └── Walking.mp4                 #    No fall
-├── skeleton_dataset_*.csv          # 📊 Training/Test/Validation data
-└── test_videos/                    # 🧪 Additional test videos
-```
+├── fall_detection_mac.py           # 🎬 Main detection script 
+├── alerts.py                       # 🔔 Alert module (LINE, 
+├── train_plot_mac.py               # 🏋️ Model training & 
+├── fall_model_from_sequences.pkl   # 🧠 Trained Random Forest 
+├── detected_falls/                 # 📸 Saved fall detection 
 
 ---
 
@@ -187,7 +175,7 @@ python3 alerts.py
 | Item | Description | Est. Price |
 |------|-------------|------------|
 | Raspberry Pi 5 | 8GB RAM recommended | ฿2,500 |
-| Camera Module 3 | 1080p 30fps | ฿1,200 |
+| WEBCAM | 1080p 30fps | ฿1,200 |
 | Active Cooler | Fan + Heatsink | ฿400 |
 | Power Supply | 27W USB-C | ฿500 |
 | Buzzer | Active 5V | ฿20 |
