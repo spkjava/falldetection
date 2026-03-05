@@ -1,4 +1,4 @@
-<![CDATA[# 🛡️ Fall Detection System for Elderly Care
+# 🛡️ Fall Detection System for Elderly Care
 
 > **AI-powered real-time fall detection** using Computer Vision and Machine Learning — designed for elderly safety monitoring.
 
@@ -263,4 +263,4 @@ For educational purposes — **Senior Project, Department of Electrical Engineer
 <p align="center">
   <i>Built with ❤️ for elderly safety</i>
 </p>
-]]>
+
