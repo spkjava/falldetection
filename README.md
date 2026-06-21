@@ -14,13 +14,15 @@
 
 ระบบตรวจจับการล้มสำหรับผู้สูงอายุ โดยใช้ **MediaPipe Pose Estimation** ร่วมกับ **Random Forest Classifier** เพื่อวิเคราะห์ท่าทางและตรวจจับการล้มแบบ Real-time พร้อมแจ้งเตือนผ่าน LINE และ Buzzer
 
+Built as a Senior Project (วิชา 2102499), Department of Electrical Engineering, Chulalongkorn University — *Hybrid Rule-Based and Machine Learning System for Fall Detection on Raspberry Pi*.
+
 ### ✨ Key Features
 
 - 🎯 **Real-time Fall Detection** — ตรวจจับการล้มแบบเรียลไทม์ด้วย State Machine (NORMAL → FALLING → FALLEN → RECOVERING)
-- 🤖 **Hybrid AI** — Rule-based velocity detection + Random Forest ML model
+- 🤖 **Hybrid AI** — Rule-based velocity detection + Random Forest ML model on a 132-dim MediaPipe Pose feature vector (33 keypoints + torso angle, aspect ratio, vertical drop, movement)
 - 📱 **LINE Messaging API** — แจ้งเตือนผ่าน LINE พร้อมรูปภาพ
 - 🔔 **Multi-channel Alerts** — Buzzer (GPIO), Sound alert, LINE notification
-- 📊 **High Accuracy** — 96.7% accuracy, 93.1% recall บน test set (645 samples)
+- 🔒 **Privacy-friendly** — all inference runs on-device; no video is sent to the cloud
 - 🍓 **Raspberry Pi 5 Ready** — รองรับการ deploy บน Pi 5 พร้อม Camera Module
 
 ---
@@ -55,11 +57,12 @@ NORMAL ──(fall detected)──▶ FALLING ──(impact confirmed)──▶ 
 
 ```
 Senior_Project/
-├── fall_detection_mac.py           # 🎬 Main detection script 
-├── alerts.py                       # 🔔 Alert module (LINE, 
-├── train_plot_mac.py               # 🏋️ Model training & 
-├── fall_model_from_sequences.pkl   # 🧠 Trained Random Forest 
-├── detected_falls/                 # 📸 Saved fall detection 
+├── fall_detection_mac.py           # 🎬 Main detection script
+├── alerts.py                       # 🔔 Alert module (LINE, Buzzer)
+├── train_plot_mac.py               # 🏋️ Model training & evaluation
+├── fall_model_from_sequences.pkl   # 🧠 Trained Random Forest model
+├── detected_falls/                 # 📸 Saved fall detection snapshots
+```
 
 ---
 
@@ -73,8 +76,8 @@ Senior_Project/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/<your-username>/fall-detection-elderly.git
-cd fall-detection-elderly
+git clone https://github.com/spkjava/falldetection.git
+cd falldetection
 ```
 
 ### 2. Setup Environment
@@ -116,16 +119,19 @@ VIDEO_SOURCE = 'rtsp://...'          # IP Camera
 
 ## 📊 Model Performance
 
-### Classification Report
+> Two evaluation levels were run for this project — a frame-level test of the ML classifier alone, and a full end-to-end system test on independent video data. They measure different things and are **not** directly comparable; both are reported below for transparency, matching the official senior project report.
+
+### 1. Per-Frame ML Model Evaluation (645 test samples)
+
+Tests the Random Forest classifier's pose-classification accuracy on individual frames.
 
 | Class | Precision | Recall | F1-Score | Support |
 |-------|-----------|--------|----------|---------|
 | Fall | 0.947 | 0.931 | 0.939 | 174 |
 | Person | 0.975 | 0.981 | 0.978 | 471 |
-| **Accuracy** | | | **0.967** | **645** |
+| **Accuracy** | | | **0.9674** | **645** |
 
-### Confusion Matrix
-
+**Confusion Matrix**
 ```
               Predicted
             Person  Fall
@@ -133,7 +139,26 @@ Actual  Person [ 462    9 ]
         Fall   [  12  162 ]
 ```
 
-### Video Test Results (100% Accuracy)
+### 2. Full System Evaluation (Kaggle Fall Detection Dataset, 2,000 video clips)
+
+Tests the complete pipeline — rule-based logic + State Machine + ML model together — at the video/event level, on 1,000 fall clips and 1,000 normal-activity clips, with `FALL_CONFIRM_FRAMES = 2` and `LYING_CONFIRM_FRAMES = 8`.
+
+| Metric | Value |
+|--------|-------|
+| Accuracy | 85.55% |
+| Precision | 89.63% |
+| Recall | 80.40% |
+| F1-score | 84.77% |
+| Specificity | 90.70% |
+
+**Confusion Matrix**
+```
+                  Predicted Fall   Predicted No Fall
+Actual Fall            804               196
+Actual No Fall          93               907
+```
+
+### Informal Video Sanity Checks (Local test videos)
 
 | Video | Expected | Result |
 |-------|----------|--------|
@@ -263,4 +288,3 @@ For educational purposes — **Senior Project, Department of Electrical Engineer
 <p align="center">
   <i>Built with ❤️ for elderly safety</i>
 </p>
-
